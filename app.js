@@ -11,6 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 const teamMembers = [];
+// Manager questions
 const managerQuestions = [
     {
         type: "input",
@@ -34,6 +35,7 @@ const managerQuestions = [
     },
 ];
 
+// Creates a manager
 function createManager() {
     inquirer.prompt(managerQuestions).then(function (answers) {
         const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber)
@@ -42,6 +44,7 @@ function createManager() {
     });
 }
 
+// Creates an employee
 function newEmployee() {
     inquirer.prompt([
         {
@@ -56,6 +59,7 @@ function newEmployee() {
         }
     ]).then(function (answers) {
         switch (answers.type) {
+            // Engineer questions
             case "Engineer":
                 inquirer.prompt([
                     {
@@ -84,6 +88,7 @@ function newEmployee() {
                     newEmployee()
                 })
                 break;
+            // Intern questions 
             case "Intern":
                 inquirer.prompt([
                     {
@@ -113,15 +118,14 @@ function newEmployee() {
                 })
                 break;
             default:
-                //this function writes text to team.html file
                 writeToFile("output/team.html", render(teamMembers))
         };
     })
 };
 
-// function to write team.html file
+// Writes team.html file
 function writeToFile(fileName, data) {
-    console.log("writeToFile")
+    console.log("Team profile generated!")
     fs.writeFile(fileName, data, function (err, response) {
         process.exit()
     })
